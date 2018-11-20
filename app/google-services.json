@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "281661123278",
+    "firebase_url": "https://primerospasosfirebase-75a60.firebaseio.com",
+    "project_id": "primerospasosfirebase-75a60",
+    "storage_bucket": "primerospasosfirebase-75a60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281661123278:android:34d0e71262ee3db0",
+        "android_client_info": {
+          "package_name": "mx.com.firebase.yanabit.pablonolasco.appcomidas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281661123278-rhh3gr96qqg7vea3qog86rkd971mf26m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.com.firebase.yanabit.pablonolasco.appcomidas",
+            "certificate_hash": "fa6e8956db009c7ac9d596a43cf8dfccc1ce1acf"
+          }
+        },
+        {
+          "client_id": "281661123278-35ghd75r7c45a7s07oq8jjb8s21vjlvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK-8zomKd4i9KprgFvlCikFqpem1qw8_w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281661123278-35ghd75r7c45a7s07oq8jjb8s21vjlvn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281661123278:android:2ba29ba9d187c8dc",
+        "android_client_info": {
+          "package_name": "mx.com.firebase.yanabit.pablonolasco.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281661123278-fuinpid6d140di52j5u0oqg3jqgqtl6u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.com.firebase.yanabit.pablonolasco.firebase",
+            "certificate_hash": "fa6e8956db009c7ac9d596a43cf8dfccc1ce1acf"
+          }
+        },
+        {
+          "client_id": "281661123278-35ghd75r7c45a7s07oq8jjb8s21vjlvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK-8zomKd4i9KprgFvlCikFqpem1qw8_w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281661123278-35ghd75r7c45a7s07oq8jjb8s21vjlvn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
