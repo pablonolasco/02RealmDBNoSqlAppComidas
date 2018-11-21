@@ -118,12 +118,16 @@ public class DummyContent {
 
         @Override
         public int hashCode() {
-            return super.hashCode();
+
+            return id != null?id.hashCode():0;
         }
 
         @Override
         public boolean equals(Object obj) {
-            return super.equals(obj);
+            if(this == obj) return true;
+            if(obj == null || getClass() != obj.getClass()) return false;
+            Comida comida= (Comida)obj;
+            return id != null ? id.equals(comida.id):comida.id== null;
         }
 
         @Override

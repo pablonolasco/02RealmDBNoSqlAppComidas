@@ -7,15 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +48,8 @@ import mx.com.firebase.yanabit.pablonolasco.appcomidas.dummy.DummyContent;
  */
 public class ComidaListActivity extends AppCompatActivity {
 
+    private static final String PATH_PROFILE ="profile" ;
+    private static final String PATH_CODE = "code";
     @BindView(R.id.et_name)
     EditText etName;
     @BindView(R.id.et_price)
@@ -52,7 +61,7 @@ public class ComidaListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-    private String PATH = "food";
+    private static String PATH = "food";
     private String REFERENCES = "message";
 
     @Override
@@ -92,7 +101,7 @@ public class ComidaListActivity extends AppCompatActivity {
         // todo datos cuando haya internet y el maneja su propio control de versiones interno.
         //database.setPersistenceEnabled(true);
         DatabaseReference databaseReference = database.getReference(PATH);
-
+        // TODO: 21/11/18 mantiene conectado firebase 
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -181,6 +190,57 @@ public class ComidaListActivity extends AppCompatActivity {
         etPrice.setText("");
     }
 
+    //todo inicia menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_info:
+                final TextView textView_code= new TextView(this);
+                // TODO: 21/11/18 estilos desde codigo
+                LinearLayout.LayoutParams linearLayoutParams= new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                
+                textView_code.setLayoutParams(linearLayoutParams);
+                // TODO: 21/11/18 texto centrado 
+                textView_code.setGravity(Gravity.CENTER_HORIZONTAL);
+                // TODO: 21/11/18 texto tamaño 
+                textView_code.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+                final FirebaseDatabase database= FirebaseDatabase.getInstance();
+
+                DatabaseReference databaseReference=database.getReference(PATH_PROFILE).child(PATH_CODE);
+                //todo obtener la informacion solo una vez de firebase
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // TODO: 21/11/18 obtenemos la informacion y la asignamos al componente
+                        textView_code.setText(dataSnapshot.getValue(String.class));
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getApplicationContext(), "Error no se puede cargar el codigo", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                AlertDialog.Builder builder=new AlertDialog.Builder(this)
+                        .setTitle(R.string.msg_mi_codigo)
+                        .setPositiveButton(R.string.msg_comida_dialog,null);
+                    builder.setView(textView_code);
+                    builder.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // TODO: 21/11/18 Fin menu 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -225,13 +285,23 @@ public class ComidaListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             String precio = "$" + mValues.get(position).precio;
             holder.mIdView.setText(precio);
             holder.mContentView.setText(mValues.get(position).nombre);
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
+            // TODO: 21/11/18 boton de eliminar 
+            holder.btDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseDatabase database=FirebaseDatabase.getInstance();
+                    DatabaseReference databaseReference=database.getReference(PATH);
+                    // TODO: 21/11/18 elimina el elemento de firebase, obteniendo el id del objeto
+                    databaseReference.child(mValues.get(position).getId()).removeValue();
+                }
+            });
         }
 
         @Override
@@ -242,9 +312,12 @@ public class ComidaListActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
-
+            // TODO: 21/11/18 boton eliminar 
+            @BindView(R.id.bt_delete)
+            Button btDelete;
             ViewHolder(View view) {
                 super(view);
+                ButterKnife.bind(this,view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
